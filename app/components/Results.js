@@ -22,7 +22,7 @@ const StartOver = () => {
 const Tie = (props) => {
     return (
         <MainContainer>
-            <h1>It's a tie!!</h1>
+            <h1>It is a tie!!!</h1>
             <StartOver />
         </MainContainer>
     )
@@ -62,4 +62,4 @@ Results.PropTypes = {
     scores: PropTypes.array.isRequired
 }
 
-export default Results;Results
+export default Results;
