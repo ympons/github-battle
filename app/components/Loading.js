@@ -1,33 +1,28 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 
 class Loading extends Component {
-    originalText = this.props.text
     state = {
-        text: this.originalText
+        text: this.props.text
     }
     componentDidMount() {
         const stopper = this.originalText + '...'
         this.interval = setInterval(() => {
            (this.state.text === stopper)
-                ? this.setState({ text: this.originalText  })
-                : this.setState({ text: this.state.text + '.' })
+                ? this.setState(() => { return { text: this.props.text } })
+                : this.setState((prevState) => { return { text: prevState.text + '.' } })
         }, this.props.speed)
     }
     componentWillUnmount() {
         clearInterval(this.interval)
-    }
+    }    
     render() {
         return (
-            <div style={styles.container}>
-                <p style={styles.content}> {this.state.text} </p>
-            </div>
+            <p style={styles.content}>
+                {this.state.text}
+            </p>
         );
     }
-}
-
-Loading.propTypes = {
-    text: PropTypes.string,
-    speed: PropTypes.number
 }
 
 Loading.defaultProps = {
@@ -35,21 +30,15 @@ Loading.defaultProps = {
     speed: 300
 }
 
-const styles = {
-    container: {
-        position: 'fixed',
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        fontSize: '55px'
-    },
-    content: {
-        textAlign: 'center',
-        position: 'absolute',
-        width: '100%',
-        marginTop: '30px'
-    }
+Loading.propTypes = {
+    text: PropTypes.string.isRequired,
+    speed: PropTypes.number
 }
 
+const styles = {
+    content: {
+        textAlign: 'center',
+        fontSize: '35px'
+    }
+}
 export default Loading;

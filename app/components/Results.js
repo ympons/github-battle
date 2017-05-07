@@ -1,65 +1,108 @@
-import React, { PropTypes } from 'react';
-import { Link } from 'react-router'
-import styles from '../styles'
-import UserDetails from './UserDetails'
-import UserDetailsWrapper from './UserDetailsWrapper'
-import MainContainer from './MainContainer'
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
+import queryString from 'query-string'
+import api from '../utils/api'
+import PlayerPreview from './PlayerPreview'
 import Loading from './Loading'
 
-const StartOver = () => {
+const Profile = ({info}) => {
     return (
-        <div className="col-sm-12" style={styles.space}>
-            <Link to='/playerOne'>
-                <button type='button' 
-                        className="btn brn-lg btn-danger">
-                        Start Over
-                </button>
-            </Link>
-        </div>
-    );
-};
-
-const Tie = (props) => {
-    return (
-        <MainContainer>
-            <h1>It is a tie!!!</h1>
-            <StartOver />
-        </MainContainer>
+        <PlayerPreview avatar={info.avatar_url} username={info.login}>
+            {info.name && <li>{info.name}</li>}
+            {info.location && <li>{info.location}</li>}
+            {info.company && <li>{info.company}</li>}
+            <li>Followers: {info.followers}</li>
+            <li>Following: {info.following}</li>
+            <li>Public Repos: {info.public_repos}</li>
+            {info.blog && <li><a href={info.blog}>{info.blog}</a></li>}            
+        </PlayerPreview>
     )
 }
 
-const Results = (props) => {
-    if (props.isLoading === true) {
-        return <Loading text='One Moment' speed={100} />
-    }
+Profile.propTypes = {
+    info: PropTypes.object.isRequired
+}
 
-    if (props.scores[0] === props.scores[1]) {
-        return <Tie scores={props.scores} playersInfo={props.playersInfo} />
-    }
-
-    const winningIndex = props.scores[0] > props.scores[1] ? 0 : 1
-    const losingIndex = winningIndex === 0 ? 1 : 0
-
+const Player = (props) => {
     return (
-        <MainContainer>
-            <h1>Results</h1>
-            <div className="col-sm-8 col-sm-offset-2">
-                <UserDetailsWrapper header="Winner">
-                    <UserDetails score={props.scores[winningIndex]} info={props.playersInfo[winningIndex]} />
-                </UserDetailsWrapper>
-                <UserDetailsWrapper header="Loser">
-                    <UserDetails score={props.scores[losingIndex]} info={props.playersInfo[losingIndex]} />
-                </UserDetailsWrapper>                
-            </div>
-            <StartOver />
-        </MainContainer>
+        <div>
+            <h1 className='header'>{props.label}</h1>
+            <h3 style={{textAlign: 'center'}}>Score: {props.score}</h3>
+            <Profile info={props.profile} />
+        </div>
     );
-};
+}
+Player.propTypes = {
+    label: PropTypes.string.isRequired,
+    score: PropTypes.number.isRequired,
+    profile: PropTypes.object.isRequired
+}
 
-Results.PropTypes = {
-    isLoading: PropTypes.bool.isRequired,
-    playersInfo: PropTypes.array.isRequired,
-    scores: PropTypes.array.isRequired
+class Results extends Component {
+    state = {
+        winner: null,
+        loser: null,
+        error: null,
+        loading: true
+    }
+    componentDidMount() {
+        const players = queryString.parse(this.props.location.search)
+        api.battle([
+            players.playerOneName,
+            players.playerTwoName
+        ]).then( (results) => {
+            if (results === null) {
+                return this.setState(() => {
+                    return {
+                        error: 'Looks like there was error.Check that both users exist on Github',
+                        loading: false
+                    }
+                })
+            }
+            this.setState(() => {
+                return {
+                    error: null,
+                    winner: results[0],
+                    loser: results[1],
+                    loading: false
+                }
+            })
+        })
+    }
+    render() {
+        const error = this.state.error
+        const winner = this.state.winner
+        const loser = this.state.loser
+        const loading = this.state.loading
+
+        if (loading === true) {
+            return <Loading />
+        }
+
+        if (error) {
+            return (
+                <div>
+                    <p>{error}</p>
+                    <Link to='/battle'>Reset</Link>
+                </div>
+            )
+        }
+        return (
+            <div className='row'>
+                <Player 
+                    label='Winner'
+                    score={winner.score}
+                    profile={winner.profile}
+                />
+                <Player 
+                    label='Loser'
+                    score={loser.score}
+                    profile={loser.profile}
+                />                
+            </div>
+        );
+    }
 }
 
 export default Results;
