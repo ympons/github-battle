@@ -1,14 +1,138 @@
-.appear-enter {
-    transition-duration: .7s;
-    transition-property: opacity;
-    transition-timing-function: ease-out;
-    opacity: 0;
+body {
+    font-family:0 UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif;
 }
 
-.appear-enter.appear-enter-active {
-    opacity: 1;
+.container {
+    max-width:1200px;
+    margin:0 auto;
 }
 
-.appear-leave {
-    opacity: 0;
+.row {
+    display:flex;
+    justify-content:space-around;
+}
+
+.column {
+    display:flex;
+    flex-direction:column;
+    width:500px;
+    align-items:center;
+}
+
+.column input {
+    border-radius:3px;
+    border:1px solid rgba(0,0,0,.43);
+    font-size:16px;
+    width:80%;
+    margin:10px 0;
+    padding:5px;
+}
+
+.column label,.header {
+    text-align:center;
+    font-size:30px;
+    font-weight:200;
+}
+
+a {
+    text-decoration:none;
+    color:#d0021b;
+}
+
+ul {
+    padding:0;
+}
+
+li {
+    list-style-type:none;
+}
+
+.button {
+    color:#e6e6e6;
+    background:#0a0a0a;
+    border:none;
+    font-size:16px;
+    border-radius:3px;
+    width:200px;
+    text-align:center;
+    display:block;
+    margin:10px auto;
+    padding:7px 0;
+}
+
+.button:hover:enabled {
+    background:linear-gradient(#1a1a1a,#0a0a0a);
+    color:#fff;
+    text-decoration:none;
+}
+
+.button:active {
+    transform:translateY(1px);
+}
+
+.avatar {
+    width:150px;
+    border-radius:50%;
+}
+
+.space-list-items {
+    margin-bottom:7px;
+}
+
+.languages {
+    display:flex;
+    justify-content:center;
+}
+
+.languages li {
+    font-weight:700;
+    cursor:pointer;
+    margin:10px;
+}
+
+.popular-list {
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-around;
+}
+
+.popular-item {
+    text-align:center;
+    margin:20px;
+}
+
+.popular-rank {
+    font-size:20px;
+    margin:10px;
+}
+
+.home-container {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.nav {
+    display:flex;
+}
+
+.nav li {
+    margin-right:15px;
+}
+
+.active {
+    font-weight:700;
+}
+
+.reset {
+    border:none;
+    background:transparent;
+    color:#d0021b;
+    display:block;
+    width:100%;
+    text-align:center;
+}
+
+.reset:hover {
+    cursor:pointer;
 }

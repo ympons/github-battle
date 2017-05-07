@@ -1,23 +1,38 @@
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-    template: __dirname + '/app/index.html',
-    filename: 'index.html',
-    inject: 'body'
-});
+var path = require('path')
+var HtmlWebpackPlugin = require('html-webpack-plugin')
+var webpack = require('webpack')
 
-module.exports = {
-    entry: [
-        './app/index.js'
-    ],
+var config = {
+    entry: './app/index.js',
     output: {
-        path: __dirname + '/dist',
-        filename: "index_bundle.js"
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'index_bundle.js',
+        publicPath: '/'
     },
     module: {
-        loaders: [
-            {test: /\.js$/, exclude: /node_modules/, loader: "babel-loader"},
-            {test: /\.css$/, loader: "style-loader!css-loader"}
+        rules: [
+            {test: /\.(js)$/, use: 'babel-loader'},
+            {test: /\.css$/, use: ['style-loader', 'css-loader']}
         ]
     },
-    plugins: [HtmlWebpackPluginConfig]
+    devServer: {
+        historyApiFallback: true
+    },
+    plugins: [new HtmlWebpackPlugin({
+        template: 'app/index.html'
+    })]
 }
+
+if (process.env.NODE_ENV === 'prod') {
+    config.plugins.push(
+        new webpack.DefinePlugin({
+            'process.env' : {
+                'NODE_ENV': JSON.stringify('prod')
+            }
+        }),
+        new webpack.optimize.UglifyJsPlugin()
+    )
+}
+
+
+module.exports = config;

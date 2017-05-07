@@ -1,18 +1,14 @@
 import React from 'react';
-import {Link} from 'react-router'
-import MainContainer from './MainContainer'
+import {Link} from 'react-router-dom'
 
 const Home = () => {
     return (
-        <MainContainer>
-            <h1>Github Battle</h1>
-            <p className="lead">Some fancy motto</p>
-            <Link to='/playerOne'>
-                <button type='button' className='btn btn-lg btn-success'>
-                    Get Started
-                </button>
+        <div className='home-container'>
+            <h1>Github Battle: Battle your friends...and...</h1>
+            <Link className='button' to='/battle'>
+                Battle
             </Link>
-        </MainContainer>
+        </div>
     );
 };
 
