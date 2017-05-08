@@ -17,8 +17,8 @@ const SelectLanguage = (props) => {
                 )
             })}
         </ul>
-    );
-};
+    )
+}
 
 SelectLanguage.propTypes = {
     selectedLanguage: PropTypes.string.isRequired,
