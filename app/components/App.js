@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import ReactRouter, {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import Nav from './Nav'
 import Popular from './Popular'
@@ -17,7 +17,7 @@ class App extends Component {
                         <Route exact path='/battle' component={Battle} />
                         <Route path='/battle/results' component={Results} />
                         <Route path='/popular' component={Popular} />
-                        <Route render={() => {return(<p>Not Found</p>)}} />
+                        <Route render={() => <p>Not Found</p>} />
                     </Switch>
                 </div>
             </Router>

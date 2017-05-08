@@ -4,6 +4,11 @@ import { Link } from 'react-router-dom'
 import PlayerPreview from './PlayerPreview'
 
 class PlayerInput extends Component {
+    static propTypes = {
+        id: PropTypes.string.isRequired,
+        label: PropTypes.string.isRequired,
+        onSubmit: PropTypes.func.isRequired
+    }
     state = {
         username: ''
     }
@@ -43,13 +48,8 @@ class PlayerInput extends Component {
                         Submit
                 </button>
             </form>
-        );
+        )
     }
-}
-PlayerInput.propTypes = {
-    id: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
-    onSubmit: PropTypes.func.isRequired
 }
 
 class Battle extends Component {
@@ -97,7 +97,7 @@ class Battle extends Component {
                             username={playerOneName}>
                             <button
                                 className='reset'
-                                onClick={() => {return this.handleReset('playerOne')}}>
+                                onClick={() => this.handleReset('playerOne')}>
                                 Reset
                             </button>
                         </PlayerPreview>}
@@ -115,7 +115,7 @@ class Battle extends Component {
                             username={playerTwoName}>
                             <button
                                 className='reset'
-                                onClick={() => {return this.handleReset('playerTwo')}}>
+                                onClick={() => this.handleReset('playerTwo')}>
                                 Reset
                             </button>
                         </PlayerPreview>}

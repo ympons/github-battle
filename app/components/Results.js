@@ -101,7 +101,7 @@ class Results extends Component {
                     profile={loser.profile}
                 />                
             </div>
-        );
+        )
     }
 }
 

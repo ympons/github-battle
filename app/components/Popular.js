@@ -48,8 +48,9 @@ const RepoGrid = (props) => {
                 )
             })}
         </ul>
-    );
-};
+    )
+}
+
 RepoGrid.propTypes = {
     repos: PropTypes.array.isRequired
 }
