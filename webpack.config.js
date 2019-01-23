@@ -3,6 +3,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin')
 var webpack = require('webpack')
 
 var config = {
+    mode: 'none',
     entry: './app/index.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
